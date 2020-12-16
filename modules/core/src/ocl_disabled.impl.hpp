@@ -371,6 +371,7 @@ Image2D::~Image2D() { }
 Image2D& Image2D::operator=(const Image2D & i) { return *this; }
 Image2D::Image2D(Image2D&&) CV_NOEXCEPT : p(NULL) { }
 Image2D& Image2D::operator=(Image2D&&) CV_NOEXCEPT { return *this; }
+void Image2D::copy(const UMat& src, bool alias) { OCL_NOT_AVAILABLE(); }
 
 /* static */ bool Image2D::canCreateAlias(const UMat &u) { OCL_NOT_AVAILABLE(); }
 /* static */ bool Image2D::isFormatSupported(int depth, int cn, bool norm) { OCL_NOT_AVAILABLE(); }
