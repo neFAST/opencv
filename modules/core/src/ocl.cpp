@@ -7400,7 +7400,6 @@ struct Image2D::Impl
             CV_Error(Error::OpenCLApiCallError, "Incorrect UMat, handle is null");
 
         cl_context context = (cl_context)Context::getDefault().ptr();
-        cl_command_queue queue = (cl_command_queue)Queue::getDefault().ptr();
 
 #ifdef CL_VERSION_1_2
         // this enables backwards portability to
@@ -7432,6 +7431,15 @@ struct Image2D::Impl
             CV_SUPPRESS_DEPRECATED_END
         }
         CV_OCL_DBG_CHECK_RESULT(err, "clCreateImage()");
+
+        copy(src, alias);
+    }
+
+    void copy(const UMat& src, bool alias)
+    {
+        cl_context context = (cl_context)Context::getDefault().ptr();
+        cl_command_queue queue = (cl_command_queue)Queue::getDefault().ptr();
+        int err;
 
         size_t origin[] = { 0, 0, 0 };
         size_t region[] = { static_cast<size_t>(src.cols), static_cast<size_t>(src.rows), 1 };
@@ -7544,6 +7552,12 @@ Image2D& Image2D::operator = (Image2D&& i) CV_NOEXCEPT
         i.p = nullptr;
     }
     return *this;
+}
+
+void Image2D::copy(const UMat& src, bool alias)
+{
+    if (p)
+        p->copy(src, alias);
 }
 
 Image2D::~Image2D()

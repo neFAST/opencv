@@ -755,6 +755,7 @@ public:
     Image2D & operator = (const Image2D & i);
     Image2D(Image2D &&) CV_NOEXCEPT;
     Image2D &operator=(Image2D &&) CV_NOEXCEPT;
+    void copy(const UMat& src, bool alias = false);
 
     /** Indicates if creating an aliased image should succeed.
     Depends on the underlying platform and the dimensions of the UMat.
